@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="TouchGrass-AI - A local AI outdoor activity guide"
+    >
+
+    <title>TouchGrass-AI 🌱</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            🌱 Powered by Local AI
+        </div>
+
+
+        <h1>
+            TouchGrass<span>-AI</span>
+        </h1>
+
+
+        <p class="hero-description">
+
+            Your personal AI guide for getting outside,
+            exploring your surroundings, and spending less
+            time staring at a screen.
+
+        </p>
+
+
+        <div class="privacy">
+
+            🔒 Your request stays on your machine.
+            AI runs locally with Ollama.
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+    <!-- INPUT CARD -->
+
+    <section class="card">
+
+        <h2>
+            Plan your escape
+        </h2>
+
+
+        <p class="subtitle">
+
+            Tell TouchGrass-AI what you want to do
+            and we'll create a personalized outdoor plan.
+
+        </p>
+
+
+        <form id="guideForm">
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    📍 Your area
+                </label>
+
+
+                <input
+                    id="location"
+                    name="location"
+                    type="text"
+                    placeholder="e.g. Bandra, Mumbai"
+                    autocomplete="address-level2"
+                    required
+                >
+
+
+                <small>
+
+                    Use your city, neighborhood,
+                    or general area.
+
+                </small>
+
+            </div>
+
+
+
+            <!-- ACTIVITY -->
+
+            <div class="form-group">
+
+                <label for="activity">
+
+                    🌳 What do you want to do?
+
+                </label>
+
+
+                <select
+                    id="activity"
+                    name="activity"
+                    required
+                >
+
+                    <option value="">
+                        Choose an activity
+                    </option>
+
+
+                    <option value="Hiking">
+                        🥾 Hiking
+                    </option>
+
+
+                    <option value="Walking">
+                        🚶 Walking
+                    </option>
+
+
+                    <option value="Running">
+                        🏃 Running
+                    </option>
+
+
+                    <option value="Cycling">
+                        🚲 Cycling
+                    </option>
+
+
+                    <option value="Bird watching">
+                        🐦 Bird watching
+                    </option>
+
+
+                    <option value="Gardening">
+                        🌱 Gardening
+                    </option>
+
+
+                    <option value="Nature photography">
+                        📷 Nature photography
+                    </option>
+
+
+                    <option value="Outdoor meditation">
+                        🧘 Outdoor meditation
+                    </option>
+
+
+                    <option value="Picnic">
+                        🧺 Picnic
+                    </option>
+
+
+                    <option value="Nature exploration">
+                        🌿 Nature exploration
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- DURATION + FITNESS -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="duration">
+
+                        ⏱ Available time
+
+                    </label>
+
+
+                    <select id="duration">
+
+                        <option value="30 minutes">
+                            30 minutes
+                        </option>
+
+
+                        <option value="1 hour">
+                            1 hour
+                        </option>
+
+
+                        <option
+                            value="1-2 hours"
+                            selected
+                        >
+                            1-2 hours
+                        </option>
+
+
+                        <option value="2-4 hours">
+                            2-4 hours
+                        </option>
+
+
+                        <option value="Half day">
+                            Half day
+                        </option>
+
+
+                        <option value="Full day">
+                            Full day
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="fitness">
+
+                        💪 Experience
+
+                    </label>
+
+
+                    <select id="fitness">
+
+                        <option value="Beginner">
+                            Beginner
+                        </option>
+
+
+                        <option value="Intermediate">
+                            Intermediate
+                        </option>
+
+
+                        <option value="Advanced">
+                            Advanced
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PREFERENCES -->
+
+            <div class="form-group">
+
+                <label for="preferences">
+
+                    ✨ Preferences
+
+                </label>
+
+
+                <input
+                    id="preferences"
+                    type="text"
+                    placeholder="e.g. quiet places, photography, sunrise"
+                >
+
+            </div>
+
+
+
+            <!-- CONSTRAINTS -->
+
+            <div class="form-group">
+
+                <label for="constraints">
+
+                    ⚠️ Constraints
+
+                </label>
+
+
+                <input
+                    id="constraints"
+                    type="text"
+                    placeholder="e.g. no steep climbs, going with kids"
+                >
+
+            </div>
+
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                id="generateBtn"
+            >
+
+                <span id="buttonText">
+
+                    🌱 Generate My TouchGrass Plan
+
+                </span>
+
+
+                <span
+                    id="loader"
+                    class="loader hidden"
+                ></span>
+
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ERROR -->
+
+    <section
+        id="error"
+        class="error hidden"
+    >
+
+        <div class="error-icon">
+            ⚠️
+        </div>
+
+
+        <div>
+
+            <h3>
+                Something went wrong
+            </h3>
+
+
+            <p id="errorMessage"></p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- RESULT -->
+
+    <section
+        id="result"
+        class="result hidden"
+    >
+
+
+        <div class="result-header">
+
+
+            <div>
+
+                <span class="eyebrow">
+                    YOUR OUTDOOR PLAN
+                </span>
+
+
+                <h2 id="guideTitle">
+                    Your adventure
+                </h2>
+
+
+                <p id="guideSummary"></p>
+
+            </div>
+
+
+            <div class="local-badge">
+
+                🧠 Local AI
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACTIVITY -->
+
+        <div class="activity-card">
+
+
+            <div class="activity-main">
+
+                <div class="activity-icon">
+                    🌿
+                </div>
+
+
+                <div>
+
+                    <h3 id="activityName"></h3>
+
+
+                    <p id="whyItFits"></p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stats">
+
+
+                <div>
+
+                    <span>
+                        Difficulty
+                    </span>
+
+                    <strong id="difficulty"></strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Duration
+                    </span>
+
+                    <strong id="durationResult"></strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Best time
+                    </span>
+
+                    <strong id="bestTime"></strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- GUIDE GRID -->
+
+        <div class="grid">
+
+
+            <!-- PLAN -->
+
+            <div class="output-card">
+
+                <h3>
+                    🗺 Your plan
+                </h3>
+
+
+                <ol id="plan"></ol>
+
+            </div>
+
+
+
+            <!-- WHAT TO BRING -->
+
+            <div class="output-card">
+
+                <h3>
+                    🎒 What to bring
+                </h3>
+
+
+                <ul id="whatToBring"></ul>
+
+            </div>
+
+
+
+            <!-- SAFETY -->
+
+            <div class="output-card">
+
+                <h3>
+                    🛡 Safety
+                </h3>
+
+
+                <ul id="safety"></ul>
+
+            </div>
+
+
+
+            <!-- CHALLENGE -->
+
+            <div class="output-card challenge">
+
+                <div class="challenge-icon">
+                    🌱
+                </div>
+
+
+                <h3>
+                    Touch Grass Challenge
+                </h3>
+
+
+                <p id="challenge"></p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- OFFLINE -->
+
+        <div class="offline">
+
+
+            <div class="offline-icon">
+                📵
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Now put your phone away.
+                </strong>
+
+
+                <p id="offlineTip"></p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="generate-again">
+
+            <button
+                type="button"
+                onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            >
+
+                ← Plan another adventure
+
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<footer>
+
+    <p>
+
+        TouchGrass-AI · Built with
+        FastAPI + Ollama + Gemma
+
+    </p>
+
+
+    <p class="footer-small">
+
+        Local-first AI · Open-weight model ·
+        No cloud AI API required
+
+    </p>
+
+</footer>
+
+
+
+<script src="/static/app.js"></script>
+
+
+</body>
+
+</html>
